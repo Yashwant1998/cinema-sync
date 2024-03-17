@@ -1,9 +1,10 @@
 import "./App.css";
+import { Body } from "./components/Body";
 
 function App() {
   return (
-    <div className="text-green-800 font-bold">
-      Netflix GPT. Lets Get started
+    <div>
+      <Body />
     </div>
   );
 }
