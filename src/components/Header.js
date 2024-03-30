@@ -7,15 +7,14 @@ import { addUser, removeUser } from "./utils/userSlice";
 import { LOGO, SUPPORTED_LANGUAGES } from "./utils/constants";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
-import { setGptSearch } from "./utils/gptSlice";
+import { toggleGptSearchView } from "./utils/gptSlice";
 import { changeLanguage } from "./utils/configSlice";
 
 export const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const { gptSearch } = useSelector((state) => state.gptSearch);
-  console.log(gptSearch);
+  const { showGptSearch } = useSelector((state) => state.gptSearch);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -47,7 +46,7 @@ export const Header = () => {
       });
   };
   const handleGptSearch = () => {
-    dispatch(setGptSearch());
+    dispatch(toggleGptSearchView());
   };
 
   const handleLanguageChange = (e) => {
@@ -60,7 +59,7 @@ export const Header = () => {
       <div>
         {user && (
           <div className="flex p-2 justify-between mt-5">
-            {gptSearch && (
+            {showGptSearch && (
               <select
                 className="p-2 mr-2 bg-gray-900 text-white rounded-lg font-bold"
                 onChange={handleLanguageChange}>

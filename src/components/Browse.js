@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const Browse = () => {
   useNowPlayingMovies();
-  const showGptSearch = useSelector((store) => store.gptSearch.gptSearch);
+  const showGptSearch = useSelector((store) => store.gptSearch.showGptSearch);
 
   return (
     <div>
