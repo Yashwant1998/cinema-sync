@@ -1,20 +1,21 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyD3yKRpC87XQXTxixChspR5uUCewtvUQNM",
-  authDomain: "netflixgpt-bce0e.firebaseapp.com",
-  projectId: "netflixgpt-bce0e",
-  storageBucket: "netflixgpt-bce0e.appspot.com",
-  messagingSenderId: "54518826474",
-  appId: "1:54518826474:web:28ba21d607df55b45f5e93",
+  apiKey: "AIzaSyADdpxUSSkyq_9KqBipZerY8iwRjhUiVCM",
+  authDomain: "moviemate-d2644.firebaseapp.com",
+  projectId: "moviemate-d2644",
+  storageBucket: "moviemate-d2644.appspot.com",
+  messagingSenderId: "801771513270",
+  appId: "1:801771513270:web:f268cb2b790d117ca9cd17",
+  measurementId: "G-BWPSYZHZBL",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth(app);

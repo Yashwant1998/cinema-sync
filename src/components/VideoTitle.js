@@ -1,6 +1,7 @@
 import React from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import InfoIcon from "@mui/icons-material/Info";
+import { Link } from "react-router-dom";
 
 const VideoTitle = ({ title, overview }) => {
   return (
@@ -8,12 +9,16 @@ const VideoTitle = ({ title, overview }) => {
       <h1 className="text-2xl md:text-6xl font-bold">{title}</h1>
       <p className="hidden md:inline-block py-6 text-lg w-1/4">{overview}</p>
       <div className="my-4 md:m-0">
-        <button className=" bg-white text-black py-1 md:py-4 px-3 md:px-12 text-xl  rounded-lg hover:bg-opacity-80">
-          <PlayArrowIcon /> Play
-        </button>
-        <button className="hidden md:inline-block mx-2  bg-gray-500 text-white p-4 px-12 text-xl bg-opacity-50 rounded-lg">
-          <InfoIcon /> More Info
-        </button>
+        <Link to={"/moviedemo"}>
+          <button className=" bg-white text-black py-1 md:py-4 px-3 md:px-12 text-xl  rounded-lg hover:bg-opacity-80">
+            <PlayArrowIcon /> Play
+          </button>
+        </Link>
+        <Link to={"/moviedemo"}>
+          <button className="hidden md:inline-block mx-2  bg-gray-500 text-white p-4 px-12 text-xl bg-opacity-50 rounded-lg">
+            <InfoIcon /> More Info
+          </button>
+        </Link>
       </div>
     </div>
   );

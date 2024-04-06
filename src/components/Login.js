@@ -28,9 +28,7 @@ export const Login = () => {
     const message = validateData(email.current.value, password.current.value);
 
     setErrorMessage(message);
-    console.log(message);
     if (message) return;
-    // Sign UP
     if (!isSignIn) {
       createUserWithEmailAndPassword(
         auth,
@@ -39,31 +37,21 @@ export const Login = () => {
         name.current.value
       )
         .then((userCredential) => {
-          // Signed up
-          const user = userCredential.user;
-          //    navigate("../browse");
-          // ...
           updateProfile(auth.currentUser, {
             displayName: name.current.value,
             photoURL:
               "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=600",
           })
             .then(() => {
-              // Profile updated!
-              // ...
               const { uid, displayName, email } = auth.currentUser;
               dispatch(addUser({ id: uid, email: email, name: displayName }));
             })
             .catch((error) => {
-              // An error occurred
+              setErrorMessage(error.message);
             });
-
-          console.log(user);
         })
         .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorCode + "" + errorMessage);
+          setErrorMessage(error.message);
         });
     }
     //Sign In
@@ -79,7 +67,7 @@ export const Login = () => {
           dispatch(addUser({ id: uid, email: email, name: displayName }));
         })
         .catch((error) => {
-          console.log(error);
+          setErrorMessage(error.message);
         });
     }
   };
@@ -90,7 +78,6 @@ export const Login = () => {
       <div className="absolute inset-0">
         <img className="h-full w-full object-cover" alt="" src={BG_URL} />
       </div>
-
       <div className="w-full md:w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80">
         <h1 className="font-bold text-3xl py-4">
           {isSignIn ? "Sign In" : "Sign Up"}

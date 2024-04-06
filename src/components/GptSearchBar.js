@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import lang from "./utils/languageConstants";
 import { openai } from "./utils/openai";
 import { API_OPTIONS } from "./utils/constants";
-import { addGptMovieResult } from "./utils/gptSlice";
+import { addGptMovieResult, setLoading } from "./utils/gptSlice";
 
 const GptSearchBar = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const GptSearchBar = () => {
   };
 
   const handleGptSearchClick = async () => {
-    console.log(searchText.current.value);
+    dispatch(setLoading(true));
     const gptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
       searchText.current.value +
@@ -37,15 +37,13 @@ const GptSearchBar = () => {
       // TODO: Write Error Handling
     }
 
-    console.log(gptResults.choices?.[0]?.message?.content);
-
     const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
     const promiseArray = gptMovies.map((movie) => searchMovieTMDB(movie));
     const tmdbResults = await Promise.all(promiseArray);
-    console.log(tmdbResults);
     dispatch(
       addGptMovieResult({ movieNames: gptMovies, movieResults: tmdbResults })
     );
+    dispatch(setLoading(false));
   };
 
   return (

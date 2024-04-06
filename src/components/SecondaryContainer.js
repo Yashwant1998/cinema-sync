@@ -1,9 +1,11 @@
 import React from "react";
 import MovieList from "./MovieList";
 import { useSelector } from "react-redux";
+import ShimmerUI from "./ShimmerUI";
 
 const SecondaryContainer = () => {
   const movies = useSelector((state) => state.movies);
+  if (!movies) return <ShimmerUI />;
 
   return (
     <div className="bg-black">
@@ -12,21 +14,15 @@ const SecondaryContainer = () => {
           title={"Now Playing"}
           movies={movies.nowPlayingMovies ? movies.nowPlayingMovies : []}
         />
-        <MovieList
-          title={"Trending"}
-          movies={movies.nowPlayingMovies ? movies.nowPlayingMovies : []}
-        />
+
         <MovieList
           title={"Popular"}
-          movies={movies.nowPlayingMovies ? movies.nowPlayingMovies : []}
+          movies={movies.nowPlayingMovies ? movies.topRatedMovies : []}
         />
+
         <MovieList
-          title={"Upcoming Movies"}
-          movies={movies.nowPlayingMovies ? movies.nowPlayingMovies : []}
-        />
-        <MovieList
-          title={"Horror"}
-          movies={movies.nowPlayingMovies ? movies.nowPlayingMovies : []}
+          title={"Top Rated"}
+          movies={movies.nowPlayingMovies ? movies.popularMovies : []}
         />
       </div>
     </div>

@@ -1,17 +1,19 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, { useEffect } from "react";
 import { auth } from "./utils/firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "./utils/userSlice";
 import { LOGO, SUPPORTED_LANGUAGES } from "./utils/constants";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import { toggleGptSearchView } from "./utils/gptSlice";
 import { changeLanguage } from "./utils/configSlice";
+import LiveTvIcon from "@mui/icons-material/LiveTv";
+import Logo from "../Image/Logo.png";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { showGptSearch } = useSelector((state) => state.gptSearch);
@@ -21,7 +23,7 @@ export const Header = () => {
         // User is signed in
         const { uid, displayName, email } = user;
         dispatch(addUser({ id: uid, email: email, name: displayName }));
-        navigate("/browse");
+        if (location.pathname === "/") navigate("/browse");
       } else {
         // User is signed out
         dispatch(removeUser());
@@ -42,7 +44,6 @@ export const Header = () => {
       })
       .catch((error) => {
         // An error happened.
-        console.error(error);
       });
   };
   const handleGptSearch = () => {
@@ -53,9 +54,21 @@ export const Header = () => {
     dispatch(changeLanguage(e.target.value));
   };
 
+  const handleNavigateBackToHomepage = () => {
+    handleGptSearch();
+    navigate("/browse");
+  };
+
   return (
     <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
-      <img className="w-44 mx-auto md:mx-0" alt="logo" src={LOGO} />
+      <Link to={"/browse"}>
+        <img
+          className="lg:w-48 sm:w-28 w-20 md:w-40   md:py-6 py-4 lg:py-6"
+          src={Logo}
+          alt="logo"></img>
+      </Link>
+
+      {/* <img className="w-44 mx-auto md:mx-0" alt="logo" src={LOGO} /> */}
       <div>
         {user && (
           <div className="flex p-2 justify-between mt-5">
@@ -73,13 +86,22 @@ export const Header = () => {
             <button
               onClick={handleSignOut}
               className="bg-transparent rounded-lg font-bold text-white border border-white p-2 mr-2">
-              {/* Welcome {user.name} */}
               Sign Out <PowerSettingsNewIcon />
             </button>
             <button
-              onClick={handleGptSearch}
+              onClick={
+                location.pathname.includes("movieinfo")
+                  ? handleNavigateBackToHomepage
+                  : handleGptSearch
+              }
               className="bg-red-900 rounded-lg text-white p-2 font-bold ">
-              GPT Search <TravelExploreIcon />
+              {!showGptSearch ? (
+                <p className="flex justify-between align-middle gap-1">
+                  <span>GPT Search</span> <LiveTvIcon />
+                </p>
+              ) : (
+                "Homepage"
+              )}
             </button>
           </div>
         )}
